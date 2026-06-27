@@ -11,7 +11,7 @@ export default defineConfig({
       fileName: "index"
     },
     rollupOptions: {
-      external: ["vue", "@blob-studio/js"],
+      external: ["vue", "moyo"],
       output: {
         globals: {
           vue: "Vue"

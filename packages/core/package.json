@@ -1,7 +1,7 @@
 {
-  "name": "@blob-studio/js",
+  "name": "moyo",
   "version": "0.1.0",
-  "description": "Organic SVG shape data for Blob Studio.",
+  "description": "Zero-dependency organic blob motion data.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -22,5 +22,6 @@
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.4.0"
-  }
+  },
+  "license": "MIT"
 }

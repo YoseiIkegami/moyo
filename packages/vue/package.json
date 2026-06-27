@@ -1,7 +1,7 @@
 {
-  "name": "@blob-studio/vue",
+  "name": "@moyo/vue",
   "version": "0.1.0",
-  "description": "Vue components for Blob Studio SVG shapes.",
+  "description": "Vue component for Moyo organic loading blobs.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -20,7 +20,7 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "peerDependencies": {
-    "@blob-studio/js": "0.1.0",
+    "moyo": "0.1.0",
     "vue": "^3.4.0"
   },
   "devDependencies": {
@@ -29,5 +29,6 @@
     "vite": "^5.0.0",
     "vue": "^3.4.0",
     "vue-tsc": "^2.0.0"
-  }
+  },
+  "license": "MIT"
 }

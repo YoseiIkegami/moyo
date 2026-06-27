@@ -8,7 +8,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "types": ["node"],
     "paths": {
-      "@blob-studio/js": ["../js/src/index.ts"]
+      "moyo": ["../core/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts"]

@@ -1,1 +1,1 @@
-export { default as BlobShape } from "./BlobShape.vue";
+export { default as MoyoBlob } from "./MoyoBlob.vue";

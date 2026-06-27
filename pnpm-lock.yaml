@@ -46,7 +46,7 @@ importers:
         specifier: ^2.0.0
         version: 2.2.12(typescript@5.9.3)
 
-  packages/js:
+  packages/core:
     devDependencies:
       tsup:
         specifier: ^8.0.0

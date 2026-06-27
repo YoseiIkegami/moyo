@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@blob-studio/js": fileURLToPath(new URL("../packages/js/src/index.ts", import.meta.url)),
-      "@blob-studio/vue": fileURLToPath(new URL("../packages/vue/src/index.ts", import.meta.url))
+      "moyo": fileURLToPath(new URL("../packages/core/src/index.ts", import.meta.url)),
+      "@moyo/vue": fileURLToPath(new URL("../packages/vue/src/index.ts", import.meta.url))
     }
   }
 });

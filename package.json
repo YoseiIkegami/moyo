@@ -1,13 +1,14 @@
 {
-  "name": "blob-studio-workspace",
+  "name": "moyo-workspace",
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "license": "MIT",
   "packageManager": "pnpm@10.34.4",
   "scripts": {
     "dev": "pnpm --filter demo dev",
-    "build": "pnpm --filter @blob-studio/js build && pnpm --filter @blob-studio/vue build && pnpm --filter demo build",
-    "typecheck": "pnpm --filter @blob-studio/js typecheck && pnpm --filter @blob-studio/vue typecheck && pnpm --filter demo typecheck"
+    "build": "pnpm --filter moyo build && pnpm --filter @moyo/vue build && pnpm --filter demo build",
+    "typecheck": "pnpm --filter moyo typecheck && pnpm --filter @moyo/vue typecheck && pnpm --filter demo typecheck"
   },
   "devDependencies": {
     "@types/node": "^26.0.1",
