@@ -1,2 +1,2 @@
 export * from "./motions";
-export * from "./blobPath";
+export * from "./blob";

@@ -1,7 +1,7 @@
 {
-  "name": "moyo",
+  "name": "@ikg-systems/moyo",
   "version": "0.1.0",
-  "description": "Zero-dependency organic blob motion data.",
+  "description": "Organic loading blobs. Motion-first, framework-agnostic SVG shape engine.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -15,6 +15,28 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "Yosei Ikegami (IKG Systems)",
+  "homepage": "https://github.com/ikg-systems/moyo#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikg-systems/moyo.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/ikg-systems/moyo/issues"
+  },
+  "keywords": [
+    "svg",
+    "blob",
+    "animation",
+    "loader",
+    "organic",
+    "shape",
+    "metaball",
+    "morph"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --clean",
     "typecheck": "tsc --noEmit"
@@ -23,5 +45,7 @@
     "tsup": "^8.0.0",
     "typescript": "^5.4.0"
   },
-  "license": "MIT"
+  "publishConfig": {
+    "access": "public"
+  }
 }

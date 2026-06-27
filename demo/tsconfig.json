@@ -1,14 +1,13 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
     "baseUrl": ".",
     "jsx": "preserve",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "types": ["node"],
     "paths": {
-      "moyo": ["../packages/core/src/index.ts"],
-      "@moyo/vue": ["../packages/vue/src/index.ts"]
+      "@ikg-systems/moyo": ["../packages/core/src/index.ts"],
+      "@ikg-systems/moyo-vue": ["../packages/vue/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts"]

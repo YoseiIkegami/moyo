@@ -2,44 +2,45 @@
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from "vue";
 import {
   blobEngineBounds,
-  buildPath,
-  generateBlobPoints,
+  buildPathAt,
+  clusterPosition,
+  generateClusterBalls,
   getMotion,
   type BaseMotion,
-  type BlobPoint,
+  type ClusterBall,
   type MotionData
 } from "@ikg-systems/moyo";
 
 const props = withDefaults(
   defineProps<{
     base?: string;
-    spin?: boolean;
-    reverse?: boolean;
     color?: string;
     size?: number | string;
-    speed?: number;
     morphSpeed?: number;
     spinSpeed?: number;
+    reverse?: boolean;
     complexity?: number;
     edge?: number;
     spike?: number;
     paused?: boolean;
     seed?: string | number;
+    count?: number;
+    spread?: number;
   }>(),
   {
     base: "wander",
-    spin: false,
-    reverse: false,
     color: "#5436DA",
     size: 160,
-    speed: 1,
-    morphSpeed: undefined,
+    morphSpeed: 1,
     spinSpeed: 0,
+    reverse: false,
     complexity: 6,
     edge: 0.3,
     spike: 0.2,
     paused: false,
-    seed: "moyo"
+    seed: "moyo",
+    count: 4,
+    spread: 0.5
   }
 );
 
@@ -60,9 +61,10 @@ const resolveMotion = (id: string): MotionData => {
   return getMotion("wander") as MotionData;
 };
 
-const path = ref("");
+const uid = `moyo-goo-${Math.random().toString(36).slice(2)}`;
+const balls = shallowRef<ClusterBall[]>([]);
+const paths = ref<string[]>([]);
 const rotation = ref("");
-const points = shallowRef<BlobPoint[]>([]);
 const motionData = computed(() => resolveMotion(props.base));
 const sizeValue = computed(() => (typeof props.size === "number" ? `${props.size}px` : props.size));
 
@@ -72,8 +74,9 @@ let pausedAt = 0;
 let pausedAcc = 0;
 let wasPaused = false;
 
-const rebuildPoints = () => {
-  points.value = generateBlobPoints(props.complexity, props.seed);
+const rebuildBalls = () => {
+  balls.value = generateClusterBalls(props.count, props.complexity, props.seed);
+  paths.value = balls.value.map(() => "");
 };
 
 const renderFrame = (now: number) => {
@@ -87,16 +90,24 @@ const renderFrame = (now: number) => {
 
   const activeNow = props.paused ? pausedAt : now;
   const elapsedSeconds = Math.max((activeNow - startedAt - pausedAcc) / 1000, 0);
-  const morphSpeed = Math.max(props.morphSpeed ?? props.speed, 0.1);
-  const spinSpeed = Math.max(props.spinSpeed || (props.spin ? props.speed : 0), 0);
+  const morphSpeed = Math.max(props.morphSpeed, 0.1);
+  const spinSpeed = Math.max(props.spinSpeed, 0);
   const t = elapsedSeconds * morphSpeed;
   const base = motionData.value.id as BaseMotion;
 
-  path.value = buildPath(points.value, t, {
-    base,
-    edge: props.edge,
-    spike: props.spike
-  });
+  paths.value = balls.value.map((ball) =>
+    buildPathAt(
+      ball.pts,
+      t,
+      {
+        base,
+        edge: props.edge,
+        spike: props.spike
+      },
+      clusterPosition(ball, elapsedSeconds, morphSpeed, props.spread),
+      ball.r
+    )
+  );
 
   if (spinSpeed > 0) {
     const direction = props.reverse ? -1 : 1;
@@ -110,20 +121,15 @@ const renderFrame = (now: number) => {
 };
 
 watch(
-  () => [props.complexity, props.seed],
+  () => [props.count, props.complexity, props.seed],
   () => {
-    rebuildPoints();
+    rebuildBalls();
   }
 );
 
 onMounted(() => {
-  rebuildPoints();
+  rebuildBalls();
   startedAt = performance.now();
-  path.value = buildPath(points.value, 0, {
-    base: motionData.value.id as BaseMotion,
-    edge: props.edge,
-    spike: props.spike
-  });
   frameId = requestAnimationFrame(renderFrame);
 });
 
@@ -134,20 +140,32 @@ onBeforeUnmount(() => {
 
 <template>
   <svg
-    class="moyo-blob"
+    class="moyo-cluster"
     :style="{ width: sizeValue, height: sizeValue }"
     :viewBox="blobEngineBounds.viewBox"
     aria-hidden="true"
-    data-moyo-renderer="svg"
+    data-moyo-renderer="cluster"
   >
-    <g :transform="rotation || undefined">
-      <path :d="path" :fill="color" />
+    <defs>
+      <filter :id="uid">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+        <feColorMatrix
+          in="blur"
+          mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"
+          result="goo"
+        />
+        <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+      </filter>
+    </defs>
+    <g :filter="`url(#${uid})`" :transform="rotation || undefined">
+      <path v-for="(d, index) in paths" :key="index" :d="d" :fill="color" />
     </g>
   </svg>
 </template>
 
 <style>
-.moyo-blob {
+.moyo-cluster {
   display: inline-block;
   flex: 0 0 auto;
   overflow: visible;

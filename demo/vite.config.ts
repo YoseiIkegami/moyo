@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "moyo": fileURLToPath(new URL("../packages/core/src/index.ts", import.meta.url)),
-      "@moyo/vue": fileURLToPath(new URL("../packages/vue/src/index.ts", import.meta.url))
+      "@ikg-systems/moyo": fileURLToPath(new URL("../packages/core/src/index.ts", import.meta.url)),
+      "@ikg-systems/moyo-vue": fileURLToPath(new URL("../packages/vue/src/index.ts", import.meta.url))
     }
   }
 });

@@ -1,7 +1,7 @@
 {
-  "name": "@moyo/vue",
+  "name": "@ikg-systems/moyo-vue",
   "version": "0.1.0",
-  "description": "Vue component for Moyo organic loading blobs.",
+  "description": "Vue 3 components for Moyo — organic loading blobs.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -15,13 +15,41 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "Yosei Ikegami (IKG Systems)",
+  "homepage": "https://github.com/ikg-systems/moyo#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikg-systems/moyo.git",
+    "directory": "packages/vue"
+  },
+  "bugs": {
+    "url": "https://github.com/ikg-systems/moyo/issues"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "svg",
+    "blob",
+    "loader",
+    "animation",
+    "moyo"
+  ],
   "scripts": {
-    "build": "vue-tsc --declaration --emitDeclarationOnly --outDir dist && vite build",
+    "build": "vue-tsc --noEmit && vite build && vue-tsc -p tsconfig.build.json --declaration --emitDeclarationOnly --outDir dist",
     "typecheck": "vue-tsc --noEmit"
   },
   "peerDependencies": {
-    "moyo": "0.1.0",
     "vue": "^3.4.0"
+  },
+  "dependencies": {
+    "@ikg-systems/moyo": "workspace:*"
+  },
+  "dependenciesMeta": {
+    "@ikg-systems/moyo": {
+      "injected": true
+    }
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",
@@ -30,5 +58,7 @@
     "vue": "^3.4.0",
     "vue-tsc": "^2.0.0"
   },
-  "license": "MIT"
+  "publishConfig": {
+    "access": "public"
+  }
 }
