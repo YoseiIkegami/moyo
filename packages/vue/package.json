@@ -18,14 +18,14 @@
   "sideEffects": false,
   "license": "MIT",
   "author": "Yosei Ikegami (IKG Systems)",
-  "homepage": "https://github.com/ikg-systems/moyo#readme",
+  "homepage": "https://github.com/YoseiIkegami/moyo#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ikg-systems/moyo.git",
+    "url": "git+https://github.com/YoseiIkegami/moyo.git",
     "directory": "packages/vue"
   },
   "bugs": {
-    "url": "https://github.com/ikg-systems/moyo/issues"
+    "url": "https://github.com/YoseiIkegami/moyo/issues"
   },
   "keywords": [
     "vue",
