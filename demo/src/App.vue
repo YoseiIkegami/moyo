@@ -1,133 +1,135 @@
 <template>
   <main class="app" :style="appStyle">
-    <header class="header">
-      <div class="logo">MOYO</div>
-    </header>
-
-    <section class="setup" aria-label="Setup parameters">
-      <el-segmented v-model="mode" :options="modeOptions" block />
-    </section>
-
-    <section class="motion" aria-label="Motion parameters">
-      <div class="motion-top">
-        <div class="motion-group base-group">
-          <div class="section-label">Base motion</div>
-          <el-segmented v-model="base" :options="baseOptions" block />
-        </div>
-
-        <el-button class="pause-button" type="default" @click="togglePause">
-          <el-icon>
-            <VideoPause v-if="!paused" />
-            <VideoPlay v-else />
-          </el-icon>
-          {{ paused ? "Play" : "Pause" }}
-        </el-button>
+    <aside class="panel" aria-label="Moyo controls">
+      <div class="brand">
+        <div class="logo">MOYO</div>
       </div>
 
-      <div class="motion-bottom">
-        <div class="motion-group morph-group">
-          <div class="section-label">Morph</div>
-          <div class="speed-head">
-            <span>Morph speed</span>
-            <span class="v">{{ morphSpeed.toFixed(1) }}x</span>
-          </div>
-          <input v-model.number="morphSpeed" type="range" min="0.1" max="10" step="0.1" />
-        </div>
+      <div class="scroll">
+        <section class="control-section" aria-label="Motion parameters">
+          <div class="section-label primary">Motion</div>
+          <el-segmented v-model="base" :options="baseOptions" block />
 
-        <div class="motion-group rotation-group">
-          <div class="section-label">Rotation</div>
-          <div class="rotation-controls">
-            <div class="rotation-speed">
-              <div class="speed-head">
+          <label class="field">
+            <div class="field-head">
+              <span>Morph speed</span>
+              <span class="v">{{ morphSpeed.toFixed(1) }}x</span>
+            </div>
+            <input v-model.number="morphSpeed" type="range" min="0.1" max="10" step="0.1" />
+          </label>
+
+          <div class="spin-row">
+            <label class="field">
+              <div class="field-head">
                 <span>Spin speed</span>
                 <span class="v">{{ spinSpeed.toFixed(1) }}x</span>
               </div>
               <input v-model.number="spinSpeed" type="range" min="0" max="10" step="0.1" />
-            </div>
-            <div v-if="spinSpeed > 0" class="direction-row">
-              <span class="direction-label">Direction</span>
-              <el-segmented v-model="spinDir" :options="spinDirOptions" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="shape" aria-label="Shape parameters">
-      <div class="shape-params">
-        <div class="group-label">Shape</div>
-        <label class="field grow">
-          <div class="field-head">
-            <span>{{ mode === "cluster" ? "Complexity（各塊）" : "Complexity" }}</span>
-            <span class="v">{{ complexity }}</span>
-          </div>
-          <input v-model.number="complexity" type="range" min="3" max="64" step="1" />
-        </label>
-
-        <label class="field grow">
-          <div class="field-head">
-            <span>Edge</span>
-            <span class="v">{{ edge.toFixed(2) }}</span>
-          </div>
-          <input v-model.number="edge" type="range" min="0" max="1" step="0.05" />
-        </label>
-
-        <label class="field grow">
-          <div class="field-head">
-            <span>Spike</span>
-            <span class="v">{{ spike.toFixed(2) }}</span>
-          </div>
-          <input v-model.number="spike" type="range" min="0" max="1" step="0.05" />
-        </label>
-
-        <label v-if="mode === 'cluster'" class="field grow">
-          <div class="field-head">
-            <span>Blob count</span>
-            <span class="v">{{ blobCount }}</span>
-          </div>
-          <input v-model.number="blobCount" type="range" min="2" max="16" step="1" />
-        </label>
-
-        <label v-if="mode === 'cluster'" class="field grow">
-          <div class="field-head">
-            <span>Spread</span>
-            <span class="v">{{ spread.toFixed(2) }}</span>
-          </div>
-          <input v-model.number="spread" type="range" min="0" max="1" step="0.05" />
-        </label>
-      </div>
-
-      <div class="bottom-fixed">
-        <label class="field color-field">
-          <div class="field-head"><span>Color</span></div>
-          <div class="color-wrap">
-            <input :value="color" type="color" @input="onColorInput" />
-          </div>
-          <div class="swatches" aria-label="Color presets">
+            </label>
             <button
-              v-for="swatch in swatches"
-              :key="swatch"
-              class="swatch"
+              v-if="spinSpeed > 0"
+              class="dir-btn"
               type="button"
-              :style="{ background: swatch }"
-              :aria-label="`Use ${swatch}`"
-              @click="applyColor(swatch)"
-            />
+              aria-label="Toggle spin direction"
+              title="Direction"
+              @click="spinDir = spinDir === 'cw' ? 'ccw' : 'cw'"
+            >
+              {{ spinDir === "cw" ? "↻" : "⟲" }}
+            </button>
           </div>
-        </label>
+        </section>
 
-        <div class="field seed-field seed-group">
-          <div class="field-head">
-            <span>Seed</span>
+        <div class="divider"></div>
+
+        <section class="control-section" aria-label="Shape parameters">
+          <div class="section-label primary">Shape</div>
+          <el-segmented v-model="mode" :options="modeOptions" block />
+
+          <label class="field">
+            <div class="field-head">
+              <span>{{ mode === "cluster" ? "Complexity（各塊）" : "Complexity" }}</span>
+              <span class="v">{{ complexity }}</span>
+            </div>
+            <input v-model.number="complexity" type="range" min="3" max="64" step="1" />
+          </label>
+
+          <label class="field">
+            <div class="field-head">
+              <span>Edge</span>
+              <span class="v">{{ edge.toFixed(2) }}</span>
+            </div>
+            <input v-model.number="edge" type="range" min="0" max="1" step="0.05" />
+          </label>
+
+          <label class="field">
+            <div class="field-head">
+              <span>Spike</span>
+              <span class="v">{{ spike.toFixed(2) }}</span>
+            </div>
+            <input v-model.number="spike" type="range" min="0" max="1" step="0.05" />
+          </label>
+
+          <label v-if="mode === 'cluster'" class="field">
+            <div class="field-head">
+              <span>Blob count</span>
+              <span class="v">{{ blobCount }}</span>
+            </div>
+            <input v-model.number="blobCount" type="range" min="2" max="16" step="1" />
+          </label>
+
+          <label v-if="mode === 'cluster'" class="field">
+            <div class="field-head">
+              <span>Spread</span>
+              <span class="v">{{ spread.toFixed(2) }}</span>
+            </div>
+            <input v-model.number="spread" type="range" min="0" max="1" step="0.05" />
+          </label>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="control-section" aria-label="Appearance parameters">
+          <div class="section-label primary">Appearance</div>
+
+          <label class="field color-field">
+            <div class="field-head"><span>Color</span></div>
+            <div class="color-wrap">
+              <input :value="color" type="color" @input="onColorInput" />
+            </div>
+            <div class="swatches" aria-label="Color presets">
+              <button
+                v-for="swatch in swatches"
+                :key="swatch"
+                class="swatch"
+                type="button"
+                :style="{ background: swatch }"
+                :aria-label="`Use ${swatch}`"
+                @click="applyColor(swatch)"
+              />
+            </div>
+          </label>
+
+          <div class="seed-box">
             <span class="seed-chip">{{ seed }}</span>
+            <button class="seed-btn" type="button" @click="reseed">↻ reseed</button>
           </div>
-          <button class="seed-btn" type="button" @click="reseed">↻ reseed</button>
-        </div>
+        </section>
       </div>
-    </section>
+
+      <div class="footer">
+        <button class="copy-btn primary" type="button" @click="copyVue">Copy Vue</button>
+        <button class="copy-btn" type="button" @click="copyOutput">Copy {{ outputLabel }}</button>
+        <p v-if="copiedLabel" class="copy-status" role="status">{{ copiedLabel }}</p>
+      </div>
+    </aside>
 
     <section class="preview" aria-label="Moyo preview">
-      <div class="hint"><b>Choose motion, not shape.</b> The object stays nameless.</div>
+      <el-button class="play-fab" type="default" circle title="再生 / 一時停止" @click="togglePause">
+        <el-icon>
+          <VideoPause v-if="!paused" />
+          <VideoPlay v-else />
+        </el-icon>
+      </el-button>
 
       <MoyoBlob
         v-if="mode === 'single'"
@@ -159,13 +161,6 @@
         :count="blobCount"
         :spread="spread"
       />
-
-      <div class="copy-row">
-        <button class="copy-btn primary" type="button" @click="copyVue">Copy Vue</button>
-        <button class="copy-btn" type="button" @click="copyOutput">Copy {{ outputLabel }}</button>
-      </div>
-
-      <p v-if="copiedLabel" class="copy-status" role="status">{{ copiedLabel }}</p>
     </section>
   </main>
 </template>
@@ -193,10 +188,6 @@ const baseOptions: Array<{ label: string; value: BaseMotion }> = [
   { label: "Breathe", value: "breathe" },
   { label: "Wander", value: "wander" },
   { label: "Churn", value: "churn" }
-];
-const spinDirOptions = [
-  { label: "↻", value: "cw" },
-  { label: "⟲", value: "ccw" }
 ];
 const mode = ref<"single" | "cluster">("single");
 const color = ref("#5436DA");
@@ -415,6 +406,7 @@ const colorTokens = computed(() => {
 const appStyle = computed(() => ({
   "--primary": colorTokens.value.primary,
   "--accent": colorTokens.value.primary,
+  "--control-accent": luminance(colorTokens.value.primary) > 0.78 ? colorTokens.value.btnRing : colorTokens.value.primary,
   "--on-primary": colorTokens.value.onPrimary,
   "--btn-ring": colorTokens.value.btnRing,
   "--btn-shadow": colorTokens.value.btnShadow,
@@ -522,6 +514,7 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 .app {
   --primary: #5436da;
   --accent: #5436da;
+  --control-accent: #5436da;
   --on-primary: #ffffff;
   --btn-ring: #3d2699;
   --btn-shadow: rgba(84, 54, 218, 0.45);
@@ -533,22 +526,23 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
   --panel: #ffffff;
 
   display: grid;
-  grid-template-areas:
-    "header header"
-    "setup motion"
-    "shape preview";
-  grid-template-columns: 220px 1fr;
-  grid-template-rows: 56px 116px 1fr;
+  grid-template-columns: 280px 1fr;
   height: 100vh;
   overflow: hidden;
   transition: background 400ms ease;
 }
 
-.header {
-  grid-area: header;
+.panel {
   display: flex;
-  align-items: center;
-  padding: 0 24px;
+  width: 280px;
+  min-width: 0;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.brand {
+  padding: 20px 22px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -559,84 +553,101 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
   letter-spacing: 0.28em;
 }
 
-.setup {
-  grid-area: setup;
+.scroll {
   display: flex;
-  align-items: center;
-  padding: 20px;
-  border-right: 1px solid var(--line);
-  overflow: hidden;
+  flex: 1;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+  padding: 20px 22px;
+  scrollbar-gutter: stable;
 }
 
-.shape {
-  grid-area: shape;
+.control-section {
   display: flex;
   flex-direction: column;
-  padding: 24px 20px;
-  border-right: 1px solid var(--line);
-  overflow: hidden;
+  gap: 13px;
 }
 
-.shape-params {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+.divider {
+  height: 1px;
+  flex: 0 0 auto;
+  background: var(--line);
 }
 
-.bottom-fixed {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-top: auto;
-}
-
-.seed-group {
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-}
-
-.group-label,
 .section-label {
-  color: var(--sub);
-  font-size: 11px;
+  color: var(--ink);
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.group-label {
-  margin-bottom: 14px;
+.section-label.primary {
+  color: var(--ink);
 }
 
 .field {
   display: flex;
   flex-direction: column;
   gap: 7px;
-  min-width: 150px;
+  min-width: 0;
 }
 
 .color-field {
   min-width: 0;
 }
 
-.field.grow {
-  min-width: 0;
+.spin-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
 }
 
-.seed-field {
-  min-width: 0;
+.spin-row .field {
+  flex: 1;
 }
 
-.seed-btn {
-  height: 34px;
-  padding: 0 14px;
+.dir-btn {
+  display: flex;
+  width: 32px;
+  height: 28px;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--line);
-  border-radius: 9px;
+  border-radius: 7px;
   background: var(--panel);
   color: var(--ink);
   cursor: pointer;
   font: inherit;
-  font-size: 12.5px;
+  font-size: 14px;
+  transition:
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.dir-btn:hover {
+  border-color: var(--control-accent);
+  color: var(--control-accent);
+}
+
+.seed-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.seed-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--sub);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11.5px;
   font-weight: 600;
   transition:
     border-color 150ms ease,
@@ -644,9 +655,9 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 }
 
 .seed-chip {
-  max-width: 112px;
+  max-width: 132px;
   overflow: hidden;
-  padding: 2px 6px;
+  padding: 4px 9px;
   border-radius: 6px;
   background: var(--preview-bg);
   color: var(--ink);
@@ -658,12 +669,11 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 }
 
 .seed-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--control-accent);
+  color: var(--control-accent);
 }
 
-.field-head,
-.speed-head {
+.field-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -671,90 +681,10 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
   font-size: 12px;
 }
 
-.field-head .v,
-.speed-head .v {
+.field-head .v {
   color: var(--ink);
-  font-weight: 600;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-}
-
-.motion {
-  position: relative;
-  grid-area: motion;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 7px;
-  overflow: hidden;
-  padding: 10px 32px 10px;
-  border-bottom: 1px solid var(--line);
-}
-
-.motion-top,
-.motion-bottom {
-  display: flex;
-  width: 100%;
-  gap: 28px;
-  align-items: flex-end;
-}
-
-.motion-bottom {
-  padding-top: 7px;
-  border-top: 1px solid rgba(231, 230, 236, 0.75);
-}
-
-.motion-group {
-  min-width: 180px;
-}
-
-.base-group {
-  flex: 0 1 360px;
-  padding-right: 132px;
-}
-
-.morph-group {
-  flex: 1 1 220px;
-}
-
-.rotation-group {
-  display: flex;
-  flex-direction: column;
-  flex: 1.2 1 280px;
-}
-
-.rotation-controls {
-  display: flex;
-  gap: 14px;
-  align-items: end;
-}
-
-.rotation-speed {
-  flex: 1;
-  min-width: 160px;
-}
-
-.section-label {
-  margin-bottom: 6px;
-}
-
-.pause-button {
-  position: absolute;
-  top: 10px;
-  right: 32px;
-  width: 104px;
-  min-height: 28px;
-}
-
-.direction-row {
-  display: flex;
-  align-items: center;
-  flex: 0 0 104px;
-  gap: 6px;
-}
-
-.direction-label {
-  color: var(--sub);
-  font-size: 11px;
 }
 
 .muted {
@@ -762,11 +692,11 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 }
 
 .app :deep(.el-segmented) {
-  --el-segmented-bg-color: color-mix(in srgb, var(--primary) 8%, var(--panel));
+  --el-segmented-bg-color: color-mix(in srgb, var(--control-accent) 8%, var(--panel));
   --el-segmented-item-selected-bg-color: var(--panel);
-  --el-segmented-item-selected-color: var(--primary);
-  --el-segmented-item-hover-color: var(--primary);
-  --el-segmented-item-active-bg-color: color-mix(in srgb, var(--primary) 12%, var(--panel));
+  --el-segmented-item-selected-color: var(--control-accent);
+  --el-segmented-item-hover-color: var(--control-accent);
+  --el-segmented-item-active-bg-color: color-mix(in srgb, var(--control-accent) 12%, var(--panel));
   --el-border-radius-base: 10px;
   width: 100%;
 }
@@ -777,40 +707,25 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 }
 
 .app :deep(.el-segmented__item-selected) {
-  border: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
-  color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--control-accent) 28%, var(--line));
+  color: var(--control-accent);
   box-shadow: 0 2px 8px -5px var(--btn-shadow);
-}
-
-.direction-row :deep(.el-segmented) {
-  width: 72px;
-  min-width: 72px;
-}
-
-.direction-row :deep(.el-segmented__item) {
-  min-width: 32px;
-  padding: 0 6px;
-  font-size: 13px;
 }
 
 .app :deep(.el-button) {
   --el-button-bg-color: var(--panel);
   --el-button-border-color: var(--line);
   --el-button-text-color: var(--ink);
-  --el-button-hover-border-color: var(--accent);
-  --el-button-hover-text-color: var(--accent);
-  --el-button-hover-bg-color: color-mix(in srgb, var(--primary) 6%, var(--panel));
-  --el-button-active-border-color: var(--accent);
-  --el-button-active-text-color: var(--accent);
+  --el-button-hover-border-color: var(--control-accent);
+  --el-button-hover-text-color: var(--control-accent);
+  --el-button-hover-bg-color: color-mix(in srgb, var(--control-accent) 6%, var(--panel));
+  --el-button-active-border-color: var(--control-accent);
+  --el-button-active-text-color: var(--control-accent);
   font-weight: 700;
 }
 
 .app :deep(.el-segmented.is-disabled) {
   opacity: 0.5;
-}
-
-.speed-head {
-  margin-bottom: 7px;
 }
 
 input[type="range"] {
@@ -826,7 +741,7 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-runnable-track {
   height: 5px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--primary) 18%, var(--line));
+  background: color-mix(in srgb, var(--control-accent) 18%, var(--line));
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -836,7 +751,7 @@ input[type="range"]::-webkit-slider-thumb {
   border: 2px solid #ffffff;
   border-radius: 50%;
   appearance: none;
-  background: var(--accent);
+  background: var(--control-accent);
   box-shadow: 0 0 0 1px var(--line);
   cursor: pointer;
 }
@@ -846,7 +761,7 @@ input[type="range"]::-moz-range-thumb {
   height: 16px;
   border: 2px solid #ffffff;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--control-accent);
   box-shadow: 0 0 0 1px var(--line);
   cursor: pointer;
 }
@@ -854,7 +769,7 @@ input[type="range"]::-moz-range-thumb {
 input[type="range"]::-moz-range-track {
   height: 5px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--primary) 18%, var(--line));
+  background: color-mix(in srgb, var(--control-accent) 18%, var(--line));
 }
 
 input[type="color"] {
@@ -870,10 +785,10 @@ input[type="color"] {
 
 .color-wrap {
   position: relative;
-  height: 34px;
+  height: 32px;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 7px;
   background-image:
     linear-gradient(45deg, #dddddd 25%, transparent 25%),
     linear-gradient(-45deg, #dddddd 25%, transparent 25%),
@@ -901,9 +816,12 @@ input[type="color"] {
   cursor: pointer;
 }
 
+.swatch:hover {
+  border-color: var(--control-accent);
+}
+
 .preview {
   position: relative;
-  grid-area: preview;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -924,8 +842,8 @@ input[type="color"] {
 
 .hint {
   position: absolute;
-  top: 18px;
-  left: 24px;
+  top: 20px;
+  left: 28px;
   color: var(--sub);
   font-size: 12px;
 }
@@ -935,25 +853,36 @@ input[type="color"] {
   font-weight: 600;
 }
 
-.copy-row {
+.play-fab {
   position: absolute;
-  right: 24px;
-  bottom: 20px;
+  top: 18px;
+  right: 28px;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+  position: relative;
   display: flex;
+  flex: 0 0 auto;
   gap: 10px;
+  padding: 16px 22px;
+  border-top: 1px solid var(--line);
 }
 
 .copy-btn {
-  padding: 8px 16px;
+  flex: 1;
+  padding: 11px;
   border: 1px solid var(--line);
   border-radius: 9px;
   background: var(--panel);
   color: var(--ink);
   cursor: pointer;
   font: inherit;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
-  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.18);
   transition:
     border-color 150ms ease,
     color 150ms ease,
@@ -961,8 +890,8 @@ input[type="color"] {
 }
 
 .copy-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--control-accent);
+  color: var(--control-accent);
 }
 
 .copy-btn.primary {
@@ -974,8 +903,8 @@ input[type="color"] {
 
 .copy-status {
   position: absolute;
-  right: 24px;
-  bottom: 62px;
+  right: 22px;
+  bottom: 56px;
   color: var(--sub);
   font-size: 12px;
   font-weight: 600;
@@ -987,68 +916,17 @@ input[type="color"] {
   }
 
   .app {
-    grid-template-areas:
-      "header"
-      "setup"
-      "motion"
-      "shape"
-      "preview";
     grid-template-columns: 1fr;
-    grid-template-rows: 56px auto auto auto minmax(420px, 1fr);
+    grid-template-rows: auto minmax(420px, 1fr);
     min-height: 100vh;
     height: auto;
     overflow: visible;
   }
 
-  .setup,
-  .shape,
-  .motion {
+  .panel {
     border-right: 0;
     border-bottom: 1px solid var(--line);
     overflow: visible;
-  }
-
-  .motion {
-    gap: 16px;
-    overflow: visible;
-  }
-
-  .motion-top,
-  .motion-bottom,
-  .rotation-controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .motion-bottom {
-    padding-top: 14px;
-  }
-
-  .setup {
-    align-items: stretch;
-  }
-
-  .bottom-fixed {
-    margin-top: 28px;
-  }
-
-  .base-group,
-  .morph-group,
-  .rotation-group {
-    flex-basis: 100%;
-  }
-
-  .base-group {
-    padding-right: 0;
-  }
-
-  .pause-button {
-    position: static;
-    width: 100%;
-  }
-
-  .direction-row {
-    flex-basis: auto;
   }
 
   .preview {

@@ -44,12 +44,7 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "@ikg-systems/moyo": "workspace:*"
-  },
-  "dependenciesMeta": {
-    "@ikg-systems/moyo": {
-      "injected": true
-    }
+    "@ikg-systems/moyo": "^0.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",
