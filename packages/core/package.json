@@ -1,6 +1,6 @@
 {
   "name": "@ikg-systems/moyo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Organic loading blobs. Motion-first, framework-agnostic SVG shape engine.",
   "type": "module",
   "main": "./dist/index.js",
@@ -18,7 +18,7 @@
   "sideEffects": false,
   "license": "MIT",
   "author": "Yosei Ikegami (IKG Systems)",
-  "homepage": "https://github.com/YoseiIkegami/moyo#readme",
+  "homepage": "https://yoseiikegami.github.io/moyo/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YoseiIkegami/moyo.git",
