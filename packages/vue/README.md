@@ -16,6 +16,12 @@ ready-to-use Vue 3 components.
 
 ---
 
+## Try it first
+
+Open the **[live demo](https://yoseiikegami.github.io/moyo/)**, adjust the
+controls, then click **Copy Vue**. The copied snippet uses the same props shown
+below, so you can design visually and paste the result into your app.
+
 ## Installation
 
 ```bash
@@ -38,6 +44,35 @@ import { MoyoBlob } from "@ikg-systems/moyo-vue";
 
 That's it. A purple blob, wandering in place.
 
+## Common examples
+
+### A subtle brand mark
+
+```vue
+<MoyoBlob
+  base="breathe"
+  color="#D94A1E"
+  :size="32"
+  :complexity="10"
+  :edge="0.35"
+  :spike="0.2"
+  seed="site-logo"
+/>
+```
+
+### A more active loading accent
+
+```vue
+<MoyoBlob
+  base="churn"
+  color="#5436DA"
+  :size="96"
+  :morph-speed="1.6"
+  :spin-speed="0.4"
+  :complexity="12"
+/>
+```
+
 ## Cluster mode
 
 ```vue
@@ -49,6 +84,9 @@ import { MoyoCluster } from "@ikg-systems/moyo-vue";
   <MoyoCluster base="wander" :count="6" :spread="0.5" :spin-speed="0.3" color="#5436DA" />
 </template>
 ```
+
+Use cluster mode when you want a gooey group of blobs that drift, merge, and
+separate around the center.
 
 ## Props
 
@@ -67,6 +105,18 @@ import { MoyoCluster } from "@ikg-systems/moyo-vue";
 | `seed` | string | reproducible shape |
 | `count` *(Cluster)* | 2-16 | number of blobs |
 | `spread` *(Cluster)* | 0-1 | how far they travel from center |
+
+## Which package do I need?
+
+Most Vue users only need this package:
+
+```bash
+npm install @ikg-systems/moyo-vue
+```
+
+It uses [`@ikg-systems/moyo`](https://www.npmjs.com/package/@ikg-systems/moyo)
+internally. Install the core package directly only if you want to generate SVG
+paths yourself outside Vue components.
 
 See the [full documentation](https://github.com/YoseiIkegami/moyo#readme) and the
 [live demo](https://yoseiikegami.github.io/moyo/) for the complete API and examples.

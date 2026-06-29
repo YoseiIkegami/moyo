@@ -64,8 +64,8 @@ importers:
   packages/vue:
     dependencies:
       '@ikg-systems/moyo':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.1.1
+        version: 0.1.1
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
@@ -414,8 +414,8 @@ packages:
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
 
-  '@ikg-systems/moyo@0.1.0':
-    resolution: {integrity: sha512-NwD2G1iHc0Q3lJtmdH/nOHk5crS2DxEtRPaEU46kDAKUgwh8IlZQN67jfwzyqC2ODpRMl7TXe66hyPup0lGx7A==}
+  '@ikg-systems/moyo@0.1.1':
+    resolution: {integrity: sha512-Av98JlXJ+9Jab/W/bPDwN3BtlbZVcHxezh8NMl2UxWEi63SGKthw+aGLsloSBBcTXur5VnyadvZCnCyGkflIXQ==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -1172,7 +1172,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.11': {}
 
-  '@ikg-systems/moyo@0.1.0': {}
+  '@ikg-systems/moyo@0.1.1': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:

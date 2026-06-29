@@ -32,6 +32,25 @@ an empty state, a loading indicator, a hero accent. Place it, and let it live.
 
 ---
 
+## Try it first
+
+Open the **[live demo](https://yoseiikegami.github.io/moyo/)** and play with the
+controls before installing anything.
+
+The demo lets you tune the same props you use in code:
+
+- **Mode** — choose a single blob or a gooey cluster
+- **Motion** — switch between `breathe`, `wander`, and `churn`
+- **Shape** — tune `complexity`, `edge`, and `spike`
+- **Appearance** — pick a color and reseed the silhouette
+- **Copy** — copy a ready-to-paste Vue snippet or SVG path output
+
+If you are using Vue 3, start with the copied Vue snippet. If you are building
+your own renderer, use the copied SVG/path output as a reference and install the
+core package.
+
+---
+
 ## Features
 
 - **Motion-first** — three distinct living motions: `breathe`, `wander`, `churn`
@@ -41,6 +60,18 @@ an empty state, a loading indicator, a hero accent. Place it, and let it live.
 - **Tiny and dependency-free core** — pure SVG path generation, no animation library
 - **Reproducible** — seed-based generation; the same seed always yields the same shape
 - **Vue 3 ready** — drop-in component, or use the framework-agnostic core anywhere
+
+---
+
+## Which package should I install?
+
+| package | use it when | what you get |
+| --- | --- | --- |
+| [`@ikg-systems/moyo-vue`](https://www.npmjs.com/package/@ikg-systems/moyo-vue) | You use Vue 3 | `<MoyoBlob />` and `<MoyoCluster />` components |
+| [`@ikg-systems/moyo`](https://www.npmjs.com/package/@ikg-systems/moyo) | You use React, Svelte, vanilla JS, Canvas, or a custom renderer | SVG path generation functions |
+
+Most Vue users only need `@ikg-systems/moyo-vue`. It depends on the core package
+internally.
 
 ---
 
@@ -69,6 +100,9 @@ import { MoyoBlob } from "@ikg-systems/moyo-vue";
 ```
 
 That's it. A purple blob, wandering in place.
+
+For the fastest start, open the **[demo](https://yoseiikegami.github.io/moyo/)**,
+adjust the controls, then click **Copy Vue**.
 
 ---
 

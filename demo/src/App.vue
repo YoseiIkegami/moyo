@@ -27,14 +27,13 @@
               <input v-model.number="spinSpeed" type="range" min="0" max="10" step="0.1" />
             </label>
             <button
-              v-if="spinSpeed > 0"
               class="dir-btn"
               type="button"
-              aria-label="Toggle spin direction"
-              title="Direction"
+              :aria-label="`Spin direction: ${spinDir === 'cw' ? 'clockwise' : 'counterclockwise'}`"
+              :title="spinDir === 'cw' ? 'Clockwise' : 'Counterclockwise'"
               @click="spinDir = spinDir === 'cw' ? 'ccw' : 'cw'"
             >
-              {{ spinDir === "cw" ? "↻" : "⟲" }}
+              <span class="dir-icon" :class="{ reverse: spinDir === 'ccw' }" aria-hidden="true">↻</span>
             </button>
           </div>
         </section>
@@ -86,11 +85,7 @@
           </label>
         </section>
 
-        <div class="divider"></div>
-
         <section class="control-section" aria-label="Appearance parameters">
-          <div class="section-label primary">Appearance</div>
-
           <label class="field color-field">
             <div class="field-head"><span>Color</span></div>
             <div class="color-wrap">
@@ -512,6 +507,7 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 }
 
 .app {
+  --panel-width: 360px;
   --primary: #5436da;
   --accent: #5436da;
   --control-accent: #5436da;
@@ -526,7 +522,7 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
   --panel: #ffffff;
 
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: var(--panel-width) 1fr;
   height: 100vh;
   overflow: hidden;
   transition: background 400ms ease;
@@ -534,21 +530,21 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 
 .panel {
   display: flex;
-  width: 280px;
-  min-width: 0;
+  width: var(--panel-width);
+  min-width: var(--panel-width);
   flex-direction: column;
   border-right: 1px solid var(--line);
   overflow: hidden;
 }
 
 .brand {
-  padding: 20px 22px;
+  padding: 24px 28px;
   border-bottom: 1px solid var(--line);
 }
 
 .logo {
   color: var(--ink);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.28em;
 }
@@ -557,16 +553,16 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
   overflow-y: auto;
-  padding: 20px 22px;
+  padding: 24px 28px;
   scrollbar-gutter: stable;
 }
 
 .control-section {
   display: flex;
   flex-direction: column;
-  gap: 13px;
+  gap: 16px;
 }
 
 .divider {
@@ -577,7 +573,7 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 
 .section-label {
   color: var(--ink);
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -590,7 +586,7 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 .field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 9px;
   min-width: 0;
 }
 
@@ -600,7 +596,7 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 
 .spin-row {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: flex-end;
 }
 
@@ -610,21 +606,31 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 
 .dir-btn {
   display: flex;
-  width: 32px;
-  height: 28px;
-  flex: 0 0 32px;
+  width: 42px;
+  height: 36px;
+  flex: 0 0 42px;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: 9px;
   background: var(--panel);
   color: var(--ink);
   cursor: pointer;
   font: inherit;
-  font-size: 14px;
+  font-size: 18px;
   transition:
     border-color 150ms ease,
     color 150ms ease;
+}
+
+.dir-icon {
+  display: block;
+  line-height: 1;
+  transform-origin: center;
+}
+
+.dir-icon.reverse {
+  transform: scaleX(-1);
 }
 
 .dir-btn:hover {
@@ -636,18 +642,18 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
 }
 
 .seed-btn {
-  padding: 6px 12px;
+  padding: 8px 14px;
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: 9px;
   background: var(--panel);
   color: var(--sub);
   cursor: pointer;
   font: inherit;
-  font-size: 11.5px;
+  font-size: 13px;
   font-weight: 600;
   transition:
     border-color 150ms ease,
@@ -655,14 +661,14 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 }
 
 .seed-chip {
-  max-width: 132px;
+  max-width: 190px;
   overflow: hidden;
-  padding: 4px 9px;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
   background: var(--preview-bg);
   color: var(--ink);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -678,7 +684,7 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
   align-items: baseline;
   justify-content: space-between;
   color: var(--sub);
-  font-size: 12px;
+  font-size: 13.5px;
 }
 
 .field-head .v {
@@ -698,11 +704,15 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
   --el-segmented-item-hover-color: var(--control-accent);
   --el-segmented-item-active-bg-color: color-mix(in srgb, var(--control-accent) 12%, var(--panel));
   --el-border-radius-base: 10px;
+  min-height: 36px;
   width: 100%;
 }
 
 .app :deep(.el-segmented__item) {
   color: var(--sub);
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -731,7 +741,7 @@ const copyOutput = () => copyText(outputLabel, buildSvgSnippet());
 input[type="range"] {
   display: block;
   width: 100%;
-  height: 16px;
+  height: 22px;
   outline: none;
   appearance: none;
   background: transparent;
@@ -739,15 +749,15 @@ input[type="range"] {
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 5px;
+  height: 6px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--control-accent) 18%, var(--line));
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  width: 16px;
-  height: 16px;
-  margin-top: -5.5px;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
   border: 2px solid #ffffff;
   border-radius: 50%;
   appearance: none;
@@ -757,8 +767,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border: 2px solid #ffffff;
   border-radius: 50%;
   background: var(--control-accent);
@@ -767,7 +777,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 input[type="range"]::-moz-range-track {
-  height: 5px;
+  height: 6px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--control-accent) 18%, var(--line));
 }
@@ -785,10 +795,10 @@ input[type="color"] {
 
 .color-wrap {
   position: relative;
-  height: 32px;
+  height: 38px;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: 9px;
   background-image:
     linear-gradient(45deg, #dddddd 25%, transparent 25%),
     linear-gradient(-45deg, #dddddd 25%, transparent 25%),
@@ -804,15 +814,15 @@ input[type="color"] {
 
 .swatches {
   display: flex;
-  gap: 6px;
-  margin-top: 1px;
+  gap: 8px;
+  margin-top: 2px;
 }
 
 .swatch {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 7px;
   cursor: pointer;
 }
 
@@ -867,21 +877,21 @@ input[type="color"] {
   position: relative;
   display: flex;
   flex: 0 0 auto;
-  gap: 10px;
-  padding: 16px 22px;
+  gap: 12px;
+  padding: 18px 28px;
   border-top: 1px solid var(--line);
 }
 
 .copy-btn {
   flex: 1;
-  padding: 11px;
+  padding: 13px;
   border: 1px solid var(--line);
-  border-radius: 9px;
+  border-radius: 10px;
   background: var(--panel);
   color: var(--ink);
   cursor: pointer;
   font: inherit;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   transition:
     border-color 150ms ease,
@@ -903,10 +913,10 @@ input[type="color"] {
 
 .copy-status {
   position: absolute;
-  right: 22px;
-  bottom: 56px;
+  right: 28px;
+  bottom: 62px;
   color: var(--sub);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -924,6 +934,8 @@ input[type="color"] {
   }
 
   .panel {
+    width: 100%;
+    min-width: 0;
     border-right: 0;
     border-bottom: 1px solid var(--line);
     overflow: visible;

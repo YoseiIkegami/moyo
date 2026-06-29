@@ -1,6 +1,6 @@
 {
   "name": "@ikg-systems/moyo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Organic loading blobs. Motion-first, framework-agnostic SVG shape engine.",
   "type": "module",
   "main": "./dist/index.js",
