@@ -10,6 +10,8 @@ the kind of abstract, living shape you drop into empty space.
 [![npm](https://img.shields.io/npm/v/@ikg-systems/moyo.svg)](https://www.npmjs.com/package/@ikg-systems/moyo)
 [![license](https://img.shields.io/npm/l/@ikg-systems/moyo.svg)](./LICENSE)
 
+**[Live demo →](https://yoseiikegami.github.io/moyo/)** · [npm: core](https://www.npmjs.com/package/@ikg-systems/moyo) · [npm: vue](https://www.npmjs.com/package/@ikg-systems/moyo-vue)
+
 </div>
 
 ---
