@@ -1,4 +1,4 @@
-export type BaseMotion = "breathe" | "wander" | "churn";
+export type BaseMotion = "breathe" | "wander" | "churn" | "drift" | "surge" | "ripple";
 
 export type MotionData = {
   id: BaseMotion;
@@ -21,11 +21,33 @@ export const motions: Record<BaseMotion, MotionData> = {
     id: "churn",
     name: "Churn",
     baseDuration: 7
+  },
+  drift: {
+    id: "drift",
+    name: "Drift",
+    baseDuration: 12
+  },
+  surge: {
+    id: "surge",
+    name: "Surge",
+    baseDuration: 9
+  },
+  ripple: {
+    id: "ripple",
+    name: "Ripple",
+    baseDuration: 7
   }
 };
 
 export function isBaseMotion(id: string): id is BaseMotion {
-  return id === "breathe" || id === "wander" || id === "churn";
+  return (
+    id === "breathe" ||
+    id === "wander" ||
+    id === "churn" ||
+    id === "drift" ||
+    id === "surge" ||
+    id === "ripple"
+  );
 }
 
 export function getMotion(id: string): MotionData | undefined {

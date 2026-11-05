@@ -2,7 +2,7 @@
 
 **Organic loading blobs. Choose motion, not shape.**
 
-Motion-first, framework-agnostic SVG blobs that breathe, wander, and churn —
+Motion-first, framework-agnostic SVG blobs that breathe, wander, churn, drift, surge, and ripple —
 the kind of abstract, living shape you drop into empty space.
 
 [![npm](https://img.shields.io/npm/v/@ikg-systems/moyo.svg)](https://www.npmjs.com/package/@ikg-systems/moyo)
@@ -88,6 +88,9 @@ requestAnimationFrame(frame);
 | `breathe` | calm | the whole shape expands and contracts together |
 | `wander` | flowing | dents and bulges travel around the rim |
 | `churn` | alive | every point pushes and pulls out of sync |
+| `drift` | slow | one swell migrates slowly around the rim |
+| `surge` | gathering | traveling waves that build up and release |
+| `ripple` | fine | fine waves run quickly around the rim |
 
 ### Shape axes
 

@@ -98,6 +98,19 @@ export function radiusAt(point: BlobPoint, t: number, params: BlobRenderParams):
     const travel = point.ang * 2 - t * 1.2;
     cycleIn = (Math.sin(travel) + 1) / 2;
     cycleOut = (Math.sin(travel + point.ang * 1.5 + 1.7) + 1) / 2;
+  } else if (params.base === "drift") {
+    const migrate = t * 0.35 - point.ang;
+    cycleIn = (Math.sin(migrate) + 1) / 2;
+    cycleOut = (Math.sin(migrate + 1.1) + 1) / 2;
+  } else if (params.base === "surge") {
+    const gate = 0.3 + 0.7 * ((Math.sin(t * 0.21) + 1) / 2);
+    const travel = point.ang * 2 - t * 1.9;
+    cycleIn = (Math.sin(travel) * gate + 1) / 2;
+    cycleOut = (Math.sin(travel + 1.7) * gate + 1) / 2;
+  } else if (params.base === "ripple") {
+    const travel = point.ang * 5 - t * 2.4;
+    cycleIn = (Math.sin(travel) + 1) / 2;
+    cycleOut = (Math.sin(travel * 0.9 + point.phase) + 1) / 2;
   } else {
     cycleIn = (Math.sin(t * point.freq + point.phase) + 1) / 2;
     cycleOut = (Math.sin(t * point.freqOut + point.phaseOut) + 1) / 2;
